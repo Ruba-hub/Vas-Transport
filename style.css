@@ -258,10 +258,16 @@ body {
   transform: translateY(-3px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
-.btn-primary {
+.btn-primary-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+.btn-primary-btn {
+  text-decoration: none;
+  color: white;
   width: 100px;
   margin: 10px;
-  padding: 5px 20px;
+  padding: 10px 20px;
   border-radius: 50px;
   background: linear-gradient(135deg, #01711d, #5b728b);
 }
