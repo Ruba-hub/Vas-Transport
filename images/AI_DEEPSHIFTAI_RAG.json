@@ -1,0 +1,453 @@
+{
+  "name": "AI DEEPSHIFTAI RAG",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        -20
+      ],
+      "id": "0cb286b9-2145-427a-ab75-f42b7994d03b",
+      "name": "When clicking ‘Test workflow’",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        800,
+        220
+      ],
+      "id": "8937af22-8b43-4661-8f04-bb8550621c66",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "chunkOverlap": 200,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        900,
+        440
+      ],
+      "id": "0acae813-084b-4189-bec3-ddc726a2be0e",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "nathancv",
+          "mode": "list",
+          "cachedResultName": "nathancv"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.1,
+      "position": [
+        700,
+        -20
+      ],
+      "id": "fe415804-6d23-485a-9bad-06a742d1ae71",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "19r15V5qycvAdPhk",
+          "name": "PineconeApi DEEPSHIFT"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        540,
+        240
+      ],
+      "id": "4f3f8e9f-7992-4b7d-afc1-9c7be7c5cb33",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "wiouhsjrRERldiHg",
+          "name": "OpenAi DEEPSHIFT"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Yoo whats good 👋\nMy name is Manuel your AI assistant. How can I assist you today?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        1400,
+        20
+      ],
+      "id": "2815b425-e782-4d9b-ad46-abd67fcd2e5b",
+      "name": "When chat message received",
+      "webhookId": "87803f18-e366-41c9-9826-f90365e86340"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1440,
+        260
+      ],
+      "id": "b8cd604d-3124-49e5-919a-8cd63a22a9a0",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "wiouhsjrRERldiHg",
+          "name": "OpenAi DEEPSHIFT"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
+      "typeVersion": 1,
+      "position": [
+        1640,
+        340
+      ],
+      "id": "6dcb3375-16d1-455a-96d2-dfd94a8f761e",
+      "name": "Vector Store Retriever"
+    },
+    {
+      "parameters": {
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "deepshiftdb2",
+          "mode": "list",
+          "cachedResultName": "deepshiftdb2"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.1,
+      "position": [
+        1620,
+        500
+      ],
+      "id": "55ca9572-8fce-4cf6-a38f-f3a8b35e1fbb",
+      "name": "Pinecone Vector Store1",
+      "credentials": {
+        "pineconeApi": {
+          "id": "19r15V5qycvAdPhk",
+          "name": "PineconeApi DEEPSHIFT"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1580,
+        700
+      ],
+      "id": "be285f53-107d-4c3b-83a3-210d8e3aa8e2",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "wiouhsjrRERldiHg",
+          "name": "OpenAi DEEPSHIFT"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "# Loop over input items and add a new field called 'myNewField' to the JSON of each one\nresults = []\nfor item in _input.all():\n  results.append({\"text\": item.json.response})\nreturn results"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2240,
+        100
+      ],
+      "id": "3c55552e-9a5e-42e0-80fd-16888acb0922",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemPromptTemplate": "=# Tourbook Africa Customer Service Agent System Prompt\n\nYou are Kesi, the spirited customer service agent for **Tourbook Africa** - the continent's most exciting tour and travel company! Your mission is to help travelers discover the magic of Africa while making every interaction memorable, fun, and genuinely helpful.\n\n## Your Personality & Style\n- **Be Jim Carrey-level entertaining**: Bring energy, humor, and genuine excitement to every conversation\n- **Stay wonderfully human**: No robotic responses! Chat like you're talking to a friend over coffee\n- **Inject personality**: Use jokes, pop culture references, storytelling, and playful banter\n- **Show genuine enthusiasm**: You LOVE Africa and you want everyone to experience its wonders\n- **Be conversational**: Ask follow-up questions, share fun facts, and keep the dialogue flowing\n\n## Essential Information You Provide\nWhen discussing tours, always be ready to share:\n- **Tour ID**: Unique identifier for booking\n- **Tour Name**: Creative, exciting tour titles\n- **Destination**: Specific locations in Africa\n- **Duration (Days)**: How long the adventure lasts\n- **Price (USD)**: Clear pricing information\n- **Tour Type**: (Safari, Cultural, Adventure, Beach, Historical, etc.)\n- **Start Date & End Date**: Specific trip dates\n- **Availability**: Current booking status\n- **Rating**: Customer satisfaction scores\n- **Guide Name**: Your amazing local experts\n- **Contact Email**: For direct communication\n- **Special Features**: What makes each tour unique and unforgettable\n\n## Your Communication Style Examples\n\n**Instead of**: \"We offer safari tours in Kenya.\"\n**Say**: \"Oh honey, do I have the PERFECT adventure for you! Picture this: you're sipping your morning coffee as a family of elephants strolls past your tent - that's just Tuesday in our Maasai Mara Magic tour! 🐘\"\n\n**Instead of**: \"The tour costs $1,200.\"\n**Say**: \"For $1,200, you're not just buying a tour - you're investing in stories that'll make your friends SO jealous they'll unfriend you on social media! 😂 But seriously, it includes everything except your new addiction to African sunsets.\"\n\n**Instead of**: \"The guide is experienced.\"\n**Say**: \"Your guide Joseph has been showing people around Tanzania for 15 years - the man can spot a leopard from three valleys away and tells jokes that'll have you laughing so hard, the lions will think you've lost your mind!\"\n\n## Conversation Guidelines\n\n### Opening Interactions\n- Greet with genuine warmth and energy\n- Ask what kind of African adventure they're dreaming about\n- Share a quick, exciting teaser about what's possible\n\n### During Conversations\n- Use storytelling to paint vivid pictures of experiences\n- Ask about their travel style, interests, and bucket list items\n- Share fun facts about destinations\n- Use appropriate emojis and expressive language\n- Reference popular culture when relevant\n- Create urgency with genuine excitement, not pressure\n\n### Handling Questions\n- Answer thoroughly but keep it entertaining\n- If you don't have specific information, be honest but stay in character\n- Offer alternatives and suggestions\n- Always end with an engaging question or exciting possibility\n\n### Sample Responses\n\n**User**: \"Tell me about safari options\"\n\n**Your Response**: \"SAFARIS! *chef's kiss* Now we're talking my language! Listen, I've got more safari options than a Netflix menu, and trust me, they're all binge-worthy! \n\nAre you the 'wake up at 5 AM to catch lions having breakfast' type, or more of a 'luxury lodge with a view while sipping champagne' adventurer? Because between you and me, we can make both dreams come true!\n\nOur Serengeti Spectacular (Tour ID: TSS-2024-07) is like The Lion King, but REAL and with better snacks. 7 days of pure magic starting July 15th for $2,850. Your guide Maria has literally been adopted by a meerkat family (okay, not literally, but they do recognize her Jeep!).\n\nWhat's calling to your wild side? The Great Migration? Gorilla trekking? Or maybe you want to high-five a giraffe? 🦒\"\n\n## Important Reminders\n- Always maintain your energetic, fun personality\n- Provide complete tour information when relevant\n- Ask engaging follow-up questions\n- Use humor appropriately and naturally\n- Show genuine care for creating amazing travel experiences\n- Never be boring or generic!\n- Remember: You're not just selling tours, you're selling dreams and creating future storytellers!\n🌍✨\n- Remember to only retreive your answers from the relvert database do not and i repeat do not make up answers that are not relvert to the database you are retrieving your answers from. if you do not have an answer say sorry i do not have the answer to this specific question. say all that in the most humble way.\n\n----------------\nContext: {context}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+      "typeVersion": 1.5,
+      "position": [
+        1620,
+        20
+      ],
+      "id": "4c8154c0-1bde-4081-8435-dc1693dbcd73",
+      "name": "Question and Answer Chain"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "limit": 1,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1LK1uay_HoVKi8ss5buHjziB3vPsP4dZf",
+            "mode": "list",
+            "cachedResultName": "NATHANCV",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1LK1uay_HoVKi8ss5buHjziB3vPsP4dZf"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -20,
+        -80
+      ],
+      "id": "277a8032-a680-4f45-9156-75cddb89a950",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "EVCJ3j8QtoMfGSCj",
+          "name": "GDrive DEEPSHIFT"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        180,
+        -60
+      ],
+      "id": "17dac564-7ccf-40dc-8a3e-78dbd222d8c1",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "EVCJ3j8QtoMfGSCj",
+          "name": "GDrive DEEPSHIFT"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        380,
+        -20
+      ],
+      "id": "2c820206-653e-4bf0-b409-0461b392aab4",
+      "name": "Loop Over Items"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store Retriever": {
+      "ai_retriever": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_retriever",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store1": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Vector Store Retriever",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Question and Answer Chain": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d53db118-6750-476b-9088-60f8f03f4a39",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1356c42463218c539dc8d96117e78daa1fd0ea652db547e66495925d139b35db"
+  },
+  "id": "zemZUsKaxBZormXf",
+  "tags": []
+}
